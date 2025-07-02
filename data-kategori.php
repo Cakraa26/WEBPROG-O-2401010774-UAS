@@ -9,7 +9,7 @@
     content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
 
-  <title>Data Sepatu - Sepatu Kita</title>
+  <title>Data Kategori - Sepatu Kita</title>
 
   <meta name="description" content="" />
 
@@ -63,7 +63,7 @@
           <li class="menu-header mt-7">
             <span class="menu-header-text">General Menu</span>
           </li>
-          <li class="menu-item active">
+          <li class="menu-item">
             <a href="data-sepatu.php" class="menu-link">
               <i class="menu-icon icon-base ri ri-footprint-line"></i>
               <div>Sepatu</div>
@@ -75,7 +75,7 @@
               <div>Transaksi</div>
             </a>
           </li>
-          <li class="menu-item">
+          <li class="menu-item active">
             <a href="data-kategori.php" class="menu-link">
               <i class="menu-icon icon-base ri ri-apps-line"></i>
               <div>Kategori</div>
@@ -95,8 +95,8 @@
           </div>
 
           <div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
+
             <ul class="navbar-nav flex-row align-items-center ms-md-auto">
-              <!-- User -->
               <li class="nav-item">
                 <a class="nav-link hide-arrow p-0" href="javascript:void(0);">
                   <div class="avatar avatar-online">
@@ -108,7 +108,6 @@
             </ul>
           </div>
         </nav>
-
 
         <div class="content-wrapper">
           <!-- Content -->
@@ -139,8 +138,8 @@
 
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Data Sepatu</h5>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSepatu">
+                <h5 class="mb-0">Data Kategori</h5>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahModal">
                   <i class="ri ri-add-line me-1"></i> Tambah Data
                 </button>
               </div>
@@ -150,12 +149,7 @@
                     <thead>
                       <tr>
                         <th>No</th>
-                        <th>Nama</th>
-                        <th>Merk</th>
-                        <th>Kategori</th>
-                        <th>Harga</th>
-                        <th>Stok</th>
-                        <th>Gambar</th>
+                        <th>Nama Kategori</th>
                         <th>Deskripsi</th>
                         <th>Aksi</th>
                       </tr>
@@ -163,7 +157,7 @@
                     <tbody>
                       <?php
                       include_once("config/koneksi.php");
-                      $sql = "SELECT * FROM m_sepatu";
+                      $sql = "SELECT * FROM m_kategori";
                       $res = mysqli_query($conn, $sql);
                       $no = 0;
                       while ($row = mysqli_fetch_array($res)) {
@@ -171,20 +165,15 @@
                         ?>
                         <tr>
                           <td><?= $no ?></td>
-                          <td><?= $row["nm"] ?></td>
-                          <td><?= $row["merk"] ?></td>
-                          <td><?= $row["kategori"] ?></td>
-                          <td><?= number_format($row["harga"], 0, ',', '.') ?></td>
-                          <td><?= $row["stok"] ?></td>
-                          <td><img src="uploads/<?= $row['gambar'] ?>" alt="Gambar" width="100"></td>
+                          <td class="text-nowrap"><?= $row["kategori"] ?></td>
                           <td><?= $row["deskripsi"] ?></td>
                           <td class="text-nowrap">
                             <button class="btn btn-warning" data-bs-toggle="modal"
                               data-bs-target="#editModal<?= $row['id'] ?>">
                               <i class="ri ri-edit-line"></i>
                             </button>
-                            <a href="simpan_sepatu.php?hapus=<?= $row["id"] ?>"
-                              onclick="return confirm('Yakin ingin menghapus data sepatu ini?');"
+                            <a href="simpan_kategori.php?hapus=<?= $row["id"] ?>"
+                              onclick="return confirm('Yakin ingin menghapus data kategori ini?');"
                               class="btn btn-danger"><i class="ri ri-delete-bin-line"></i>
                             </a>
                           </td>
@@ -200,69 +189,25 @@
           </div>
 
 
-          <!-- Modal Tambah -->
-          <div class="modal fade" id="addSepatu" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <!-- Modal Tambah Data -->
+          <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="modalCenterTitle">Tambah Data Sepatu</h5>
+                  <h5 class="modal-title" id="modalCenterTitle">Tambah Data Transaksi</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="simpan_sepatu.php" method="POST" enctype="multipart/form-data">
+                <form action="simpan_kategori.php" method="POST">
                   <div class="modal-body">
                     <div class="row">
-                      <div class="col-12 col-md-6 mb-3 mt-2">
+                      <div class="mb-3 mt-2">
                         <div class="form-floating form-floating-outline">
-                          <input type="text" name="nm" id="nm" class="form-control" placeholder="Masukkan Nama" />
-                          <label for="nm">Nama</label>
+                          <input type="text" name="kategori" id="kategori" class="form-control"
+                            placeholder="Masukkan Nama Kategori" />
+                          <label for="kategori">Nama Kategori</label>
                         </div>
                       </div>
-                      <div class="col-12 col-md-6 mb-3 mt-2">
-                        <div class="form-floating form-floating-outline">
-                          <input type="text" name="merk" id="merk" class="form-control" placeholder="Masukkan Merk" />
-                          <label for="merk">Merk</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 col-md-6 mb-3 mt-2">
-                        <div class="form-floating form-floating-outline">
-                          <select name="kategori" id="kategori" class="form-select">
-                            <option selected disabled>Pilih Kategori</option>
-                            <option value="Olahraga">Olahraga</option>
-                            <option value="Casual">Casual</option>
-                            <option value="Formal">Formal</option>
-                            <option value="Sneakers">Sneakers</option>
-                          </select>
-                          <label for="kategori">Kategori</label>
-                        </div>
-                      </div>
-
-                      <div class="col-12 col-md-6 mb-3 mt-2">
-                        <div class="form-floating form-floating-outline">
-                          <input type="number" name="harga" id="harga" class="form-control"
-                            placeholder="Masukkan Harga" />
-                          <label for="harga">Harga</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 col-md-6 mb-3 mt-2">
-                        <div class="form-floating form-floating-outline">
-                          <input type="number" name="stok" id="stok" class="form-control" placeholder="Masukkan Stok" />
-                          <label for="stok">Stok</label>
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-6 mb-3 mt-2">
-                        <div class="form-floating form-floating-outline">
-                          <input type="file" name="gambar" id="gambar" class="form-control"
-                            placeholder="Upload Gambar" />
-                          <label for="gambar">Gambar</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 mb-3 mt-2">
+                      <div class="mb-3 mt-2">
                         <div class="form-floating form-floating-outline">
                           <textarea name="deskripsi" id="deskripsi" class="form-control" placeholder="Tulis Deskripsi"
                             style="height: 100px;"></textarea>
@@ -284,7 +229,7 @@
 
           <!-- Modal Edit -->
           <?php
-          $sql = "SELECT * FROM m_sepatu";
+          $sql = "SELECT * FROM m_kategori";
           $res = mysqli_query($conn, $sql);
           while ($row = mysqli_fetch_array($res)) {
             ?>
@@ -295,66 +240,18 @@
                     <h5 class="modal-title" id="modalCenterTitle">Edit Data Sepatu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <form action="simpan_sepatu.php" method="POST" enctype="multipart/form-data">
+                  <form action="simpan_kategori.php" method="POST">
                     <div class="modal-body">
                       <input type="hidden" name="id" value="<?= $row['id'] ?>">
                       <div class="row">
-                        <div class="col-12 col-md-6 mb-3 mt-2">
+                        <div class="mb-3 mt-2">
                           <div class="form-floating form-floating-outline">
-                            <input type="text" name="nm" id="nm" class="form-control" value="<?= $row['nm'] ?>" />
-                            <label for="nm">Nama</label>
+                            <input type="text" name="kategori" id="kategori" class="form-control"
+                              placeholder="Masukkan Nama Kategori" value="<?= $row['kategori'] ?>" />
+                            <label for="kategori">Nama Kategori</label>
                           </div>
                         </div>
-                        <div class="col-12 col-md-6 mb-3 mt-2">
-                          <div class="form-floating form-floating-outline">
-                            <input type="text" name="merk" id="merk" class="form-control" value="<?= $row['merk'] ?>" />
-                            <label for="merk">Merk</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 col-md-6 mb-3 mt-2">
-                          <div class="form-floating form-floating-outline">
-                            <select name="kategori" id="kategori" class="form-select">
-                              <option disabled <?= $row['kategori'] == '' ? 'selected' : '' ?>>Pilih Kategori</option>
-                              <option value="Olahraga" <?= $row['kategori'] == 'Olahraga' ? 'selected' : '' ?>>Olahraga
-                              </option>
-                              <option value="Casual" <?= $row['kategori'] == 'Casual' ? 'selected' : '' ?>>Casual</option>
-                              <option value="Formal" <?= $row['kategori'] == 'Formal' ? 'selected' : '' ?>>Formal</option>
-                              <option value="Sneakers" <?= $row['kategori'] == 'Sneakers' ? 'selected' : '' ?>>Sneakers
-                              </option>
-                            </select>
-                            <label for="kategori">Kategori</label>
-                          </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 mb-3 mt-2">
-                          <div class="form-floating form-floating-outline">
-                            <input type="number" name="harga" id="harga" class="form-control" placeholder="Masukkan Harga"
-                              value="<?= $row['harga'] ?>" />
-                            <label for="harga">Harga</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 col-md-6 mb-3 mt-2">
-                          <div class="form-floating form-floating-outline">
-                            <input type="number" name="stok" id="stok" class="form-control" placeholder="Masukkan Stok"
-                              value="<?= $row['stok'] ?>" />
-                            <label for="stok">Stok</label>
-                          </div>
-                        </div>
-                        <div class="col-12 col-md-6 mb-3 mt-2">
-                          <div class="form-floating form-floating-outline">
-                            <img src="uploads/<?= $row['gambar'] ?>" alt="" width="100">
-                            <input type="file" name="gambar" id="gambar" class="form-control"
-                              placeholder="Upload Gambar" />
-                            <label for="gambar">Gambar</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 mb-3 mt-2">
+                        <div class="mb-3 mt-2">
                           <div class="form-floating form-floating-outline">
                             <textarea name="deskripsi" id="deskripsi" class="form-control" placeholder="Tulis Deskripsi"
                               style="height: 100px;"><?= $row['deskripsi'] ?></textarea>
